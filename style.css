@@ -1,3 +1,4 @@
+/* Mobile First Styling - Media Queries for Larger Screens */
 /*Normalization - remove browser padding and margins, set box-sizing*/
 * {
 	margin: 0;
@@ -18,19 +19,111 @@ body {
 	background-color: #E7E7E7;
 	font-family: 'Roboto', sans-serif;
 	color: #333333;
-	/*For basic layout*/
+	/*For basic page layout*/
 	min-height: 100vh;
 	display: flex;
-	flex-direction: column;
+	flex-direction: column; 
+	/**/
+}
+
+body footer, body main {
+	padding: 10px 30px;
+}
+
+a:hover {
+	opacity: 75%;
 }
 
 /* ********* 
 Header Styles
 ********** */
-
 header {
 	background-color: #FBD94A;
 }
+
+/* Nav First/Left Styles */
+.nav-first {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.brand {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 10px 20px;
+}
+
+.brand-image {
+	max-height: 50px;
+	margin-right: 10px;
+}
+
+.brand-name {
+	font-size: 1.5rem;
+}
+
+.btn-menu {
+	display: flex;
+	align-items: center;
+	padding: 10px 20px;
+}
+
+.btn-menu-label {
+	text-transform: uppercase;
+	font-size: 1rem;
+}
+
+.menu-icon {
+	height: 20px;
+	width: 20px;
+	background-image: url('assets/menu.png');
+	background-size: cover;
+	margin-left: 5px;
+	-webkit-transition: background-image 0.5s ease-out;
+  	transition: background-image 0.5s ease-out;
+}
+
+.btn-menu.open .menu-icon {
+	background-image: url('assets/cancel.png');
+}
+
+/* Navigation */
+.nav-link-container {
+	background-color: #333;
+	color: white;
+}
+
+ul.nav-link-container {
+	list-style-type: none;
+}
+
+.nav-link {
+	font-size: 1.2rem;
+	text-align: center;
+	border-bottom: 1px solid rgba(251, 217, 74, 0.7);
+}
+
+.nav-link a{
+	color: #fbd94a;
+	text-decoration: none;
+	width: 100%;
+	display: block;
+	padding: 1rem 0.5rem;
+}
+
+.nav-menu {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.5s ease-out;
+}
+
+.nav-menu.open {
+	max-height: 500px;
+}
+
 
 /* **************** 
 Main Content Styles
@@ -45,4 +138,46 @@ Footer Styles
 footer {
 	background-color: black;
 	color: white;
+}
+
+/* Media Queries */
+@media (min-width: 769px) {
+	header {
+		display: flex;
+		justify-content: space-between;
+		padding: 10px 30px;
+	}
+
+	.nav-first {
+		width: fit-content;
+	}
+
+	.brand {
+		padding: 0;
+	}
+
+	.btn-menu {
+		display: none;
+	}
+
+	.nav-menu {
+		max-height: none;
+	}
+
+	.nav-link-container {
+		background-color: inherit;
+		color: inherit;
+		display: flex;
+		align-items: center;
+		height: 100%;
+	}
+
+	.nav-link {
+		margin-left: 20px;
+		border: none;
+	}
+
+	.nav-link a{
+		color: #333;
+	}
 }

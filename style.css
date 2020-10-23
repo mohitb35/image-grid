@@ -18,6 +18,10 @@ body {
 	background-color: #E7E7E7;
 	font-family: 'Roboto', sans-serif;
 	color: #333333;
+	/*For basic layout*/
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 /* ********* 
@@ -31,7 +35,9 @@ header {
 /* **************** 
 Main Content Styles
 ***************** */
-
+.main-content {
+	flex: 1; /*Allows main content to expand to occupy all remaining free space after considering header/footer*/
+}
 
 /* ********* 
 Footer Styles

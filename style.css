@@ -1,0 +1,42 @@
+/*Normalization - remove browser padding and margins, set box-sizing*/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* **************************** 
+Default Styles - Document Level
+**************************** */
+
+body {
+	background-color: #E7E7E7;
+	font-family: 'Roboto', sans-serif;
+	color: #333333;
+}
+
+/* ********* 
+Header Styles
+********** */
+
+header {
+	background-color: #FBD94A;
+}
+
+/* **************** 
+Main Content Styles
+***************** */
+
+
+/* ********* 
+Footer Styles
+********** */
+footer {
+	background-color: black;
+	color: white;
+}

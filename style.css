@@ -26,7 +26,7 @@ body {
 	/**/
 }
 
-body footer, body main {
+body footer {
 	padding: 10px 30px;
 }
 
@@ -38,7 +38,7 @@ a:hover {
 Header Styles
 ********** */
 header {
-	background-color: #FBD94A;
+	background-color: #fbd94a;
 }
 
 /* Nav First/Left Styles */
@@ -130,6 +130,44 @@ Main Content Styles
 ***************** */
 .main-content {
 	flex: 1; /*Allows main content to expand to occupy all remaining free space after considering header/footer*/
+}
+
+/* Banner Styles */
+.banner {
+	background-image: url('assets/douglas-gausi-ugRGcO4VFMw-unsplash.jpg');
+	background-position: center;
+	background-size: cover;
+	min-height: 500px;
+	display: flex;
+	flex-direction: column;
+}
+
+.tagline-container {
+	flex: 1; /*Allow tagline container to occupy all the free space of banner after considering credit txt*/
+	display: flex;
+	align-items: center;
+}
+
+.tagline {
+	padding: 30px;
+	background-color: rgb(0,0,0,0.4);
+	font-size: 2rem;
+	color: #f7f7f7;
+	font-weight: 400;
+	text-transform: capitalize;
+	text-align: center;
+	letter-spacing: 0.125rem;
+}
+
+.credit {
+	align-self: flex-end; /*for right side alignment within the banner*/
+	background-color: rgb(0,0,0,0.4);
+	color: #f7f7f7;
+	padding: 5px 20px;
+}
+
+.credit a {
+	color: #fbd94a;
 }
 
 /* ********* 

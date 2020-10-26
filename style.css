@@ -1,4 +1,5 @@
-/* Mobile First Styling - Media Queries for Larger Screens */
+/* Approach - Mobile First Styling - Media Queries for Larger Screens */
+
 /*Normalization - remove browser padding and margins, set box-sizing*/
 * {
 	margin: 0;
@@ -90,7 +91,7 @@ header {
 	background-image: url('assets/cancel.png');
 }
 
-/* Navigation */
+/* Navigation Menu */
 .nav-link-container {
 	background-color: #333;
 	color: white;
@@ -170,6 +171,33 @@ Main Content Styles
 	color: #fbd94a;
 }
 
+/* Results Grid */
+.results-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-gap: 20px;
+	padding: 30px 30px;
+}
+
+.result-card {
+	background-color: #ffffff;
+	border-radius: 5%;
+	overflow: hidden;
+	box-shadow:  0 3px 8px rgba(0,0,0,0.25);
+}
+
+.result-image {
+	width: 100%;
+	height: 240px;
+	object-fit: cover;
+}
+
+.result-title {
+	padding: 10px;
+	margin-bottom: 10px;
+	font-size: 1.25rem;
+}
+
 /* ********* 
 Footer Styles
 ********** */
@@ -178,7 +206,9 @@ footer {
 	color: white;
 }
 
-/* Media Queries */
+/* *********** 
+ Media Queries 
+ *************/
 @media (min-width: 769px) {
 	header {
 		display: flex;

@@ -42,6 +42,23 @@
 				Photo by <a href="https://unsplash.com/@douglasgausi?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Douglas Gausi</a> on <a href="https://unsplash.com/s/photos/hills?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>
 			</span>
 		</section>
+		<div class="paging-bar">
+			<nav id="page-nav">
+				<button id="btn-previous-page" disabled>← Previous</button>
+				<button class="btn-paging selected" disabled>1</button>
+				<button class="btn-paging">2</button>
+				<button class="btn-paging">3</button>
+				<button id="btn-next-page">Next →</button>
+			</nav>
+			<form>
+				<select name="page-size" id="page-size-selector">
+					<option disabled>Items per page</option>
+					<option value="10" selected>10</option>
+					<option value="20">20</option>
+					<option value="30">30</option>s
+				</select>
+			</form>
+		</div>
 		<section class="results-grid">
 			<article class="result-card">
 				<img class="result-image" src="assets/joolay-life-3umpERoLelU-unsplash.jpg">

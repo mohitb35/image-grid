@@ -1,6 +1,7 @@
 const menuButton = document.getElementById('btn-menu');
 const navMenu = document.getElementById('nav-menu');
 const resultsGrid = document.getElementById('results-grid');
+const pageSizeSelector = document.getElementById('page-size-selector');
 
 menuButton.addEventListener('click', toggleMenu);
 
@@ -9,6 +10,7 @@ function toggleMenu(){
 	this.classList.toggle('open');
 }
 
+// Search for images using Unsplash API, and then render the results grid
 async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
 	const searchURL = 
 		`${BASE_URL}/search/photos?query=${searchTerm}
@@ -48,10 +50,13 @@ function renderCard(imageDetails) {
 	);
 }
 
-
 searchImages('travel');
 
+pageSizeSelector.addEventListener('change', reloadResults);
 
-// Get image results
-// Construct image grid
-// Load HTML
+// Reloads results when page size changes
+function reloadResults() {
+	let pageSize = parseInt(this.value);
+	searchImages('travel', pageSize);
+	this.blur();
+}

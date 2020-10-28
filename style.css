@@ -250,7 +250,7 @@ Main Content Styles
 
 #page-nav button:disabled{
 	opacity: 60%;
-	background-color: #FFFFFF;
+	pointer-events: none;
 	transform: none;
 }
 

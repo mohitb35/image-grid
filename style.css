@@ -190,6 +190,10 @@ Main Content Styles
 	padding: 30px 30px;
 }
 
+#results-grid.loading {
+	display: block;
+}
+
 .result-card {
 	background-color: #ffffff;
 	border-radius: 5%;
@@ -208,6 +212,28 @@ Main Content Styles
 	margin-bottom: 10px;
 	font-size: 1.25rem;
 }
+
+/* Loader */
+.loader {
+	border: 8px solid #333333;
+	border-left: 8px solid #fad400;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	margin: 0 auto;
+	-webkit-animation: spin 2s linear infinite;
+	animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+  }
 
 /* Paging Bar */
 .paging-bar {

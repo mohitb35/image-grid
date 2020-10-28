@@ -19,6 +19,8 @@ function toggleMenu(){
 
 // Search for images using Unsplash API, and then render the results grid
 async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
+	renderLoader();
+
 	const searchURL = 
 		`${BASE_URL}/search/photos?query=${searchTerm}
 		&page=${currentPage}
@@ -44,11 +46,20 @@ async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
 	renderGrid(results);
 }
 
+// Show loader till grid loads
+function renderLoader() {
+	resultsGrid.innerHTML = `
+		<div class="loader"></div>
+	`
+	resultsGrid.classList.add('loading');
+}
+
 // Convert image results from API to HTML and populate grid
 function renderGrid(imageList) {
 	const gridHTML = imageList.map(imageDetails => renderCard(imageDetails)).join('');
 
 	resultsGrid.innerHTML = gridHTML;
+	resultsGrid.classList.remove('loading');
 }
 
 // Generate HTML for a single card

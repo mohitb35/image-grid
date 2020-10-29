@@ -3,11 +3,14 @@ const pageInfo = {
 	currentPage: undefined
 }
 
+const body = document.getElementsByTagName('body')[0];
 const menuButton = document.getElementById('btn-menu');
 const navMenu = document.getElementById('nav-menu');
 const resultsGrid = document.getElementById('results-grid');
 const pageSizeSelector = document.getElementById('page-size-selector');
 const pageNav = document.getElementById('page-nav');
+const modal = document.getElementById('result-modal');
+const modalCloseButton = document.getElementById('btn-modal-close');
 
 menuButton.addEventListener('click', toggleMenu);
 
@@ -60,13 +63,19 @@ function renderGrid(imageList) {
 
 	resultsGrid.innerHTML = gridHTML;
 	resultsGrid.classList.remove('loading');
+
+	const resultCards = resultsGrid.getElementsByClassName('result-card');
+
+	for (let resultCard of resultCards) {
+		resultCard.addEventListener('click', loadModal);
+	}
 }
 
 // Generate HTML for a single card
 function renderCard(imageDetails) {
 	return (
 		`
-		<article class="result-card">
+		<article class="result-card" data-modal-image="${imageDetails.urls.regular}" data-modal-text="${imageDetails["alt_description"]}">
 			<img class="result-image" src="${imageDetails.urls.small}">
 			<h2 class="result-title">${imageDetails["alt_description"]}</h2>
 		</article>
@@ -198,4 +207,21 @@ function loadNextPage() {
 function loadPage() {
 	let newPage = parseInt(this.dataset.page);
 	searchImages('travel', pageInfo.pageSize, newPage);
+}
+
+// Load the modal
+function loadModal() {
+	const modalFullImage = modal.getElementsByClassName("full-image")[0];
+	modalFullImage.src = this.dataset.modalImage;
+	const modalText = modal.getElementsByClassName("image-caption")[0];
+	modalText.innerText = this.dataset.modalText;
+	modal.classList.toggle('hidden');
+	body.classList.toggle('modal-open');
+}
+
+modalCloseButton.addEventListener('click', hideModal);
+
+function hideModal() {
+	modal.classList.toggle('hidden');
+	body.classList.toggle('modal-open');
 }

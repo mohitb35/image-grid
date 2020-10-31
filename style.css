@@ -326,7 +326,7 @@ select#page-size-selector:focus {
 	transform: scale(1.05);
 }
 
-select#page-size-selector.hidden {
+.hidden {
 	visibility: hidden;
 }
 

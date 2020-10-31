@@ -1,3 +1,7 @@
+const SEARCH_KEYWORD = 'travel';
+const GENERAL_ERROR = 'Sorry, we could not fetch the data. Please check your internet connection and try again.';
+const NO_RESULTS_MESSAGE = 'No results found.';
+
 const pageInfo = {
 	pageSize: 10,
 	currentPage: undefined
@@ -41,19 +45,23 @@ async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
 			}
 		});
 	} catch(error) {
-		showGeneralError();
+		showError(GENERAL_ERROR);
 		return;
 	}
 	
 	let data = await response.json();
 
 	let { results, total_pages: totalPages } = data; 
-	
-	pageInfo.currentPage = currentPage;
 
-	generatePageNav(currentPage, totalPages );
+	if (results.length > 0){
+		pageInfo.currentPage = currentPage;
 
-	renderGrid(results);
+		generatePageNav(currentPage, totalPages );
+
+		renderGrid(results);
+	} else {
+		showError(NO_RESULTS_MESSAGE);
+	}
 }
 
 // Show loader till grid loads
@@ -92,14 +100,14 @@ function renderCard(imageDetails) {
 	);
 }
 
-searchImages('travel');
+searchImages(SEARCH_KEYWORD);
 
 pageSizeSelector.addEventListener('change', reloadResults);
 
 // Reloads results when page size changes
 function reloadResults() {
 	let pageSize = parseInt(this.value);
-	searchImages('travel', pageSize);
+	searchImages(SEARCH_KEYWORD, pageSize);
 	pageInfo.pageSize = pageSize;
 	this.blur();
 }
@@ -122,13 +130,13 @@ function generatePageNav(currentPage, totalPages ) {
 		pageNavList.push(
 			'<button id="btn-next-page">Next →</button>'
 		);
-	};
-	
-	// Render page nav HTML
-	pageNav.innerHTML = pageNavList.join('');
 
-	// Handle page nav state
-	updatePageNavState(currentPage, totalPages);
+		// Render page nav HTML
+		pageNav.innerHTML = pageNavList.join('');
+
+		// Handle page nav state
+		updatePageNavState(currentPage, totalPages);
+	};
 }
 
 // Generates the array of upto 3 pages that are visible as paging nav buttons
@@ -138,10 +146,12 @@ function generateVisiblePageList(currentPage, totalPages){
 	// Return empty array for the following error conditions: 
 	// currentPage is 0 or invalid number, totalPages is 0 or invalid number, currentPage is greater than totalPages
 	if ((typeof totalPages) !== 'number' || totalPages <= 0 || (typeof currentPage) !== 'number' || currentPage <= 0 || currentPage > totalPages){
+		pageNav.classList.add('hidden');
 		pageSizeSelector.classList.add('hidden');
 		return [];
 	} 
 
+	pageNav.classList.remove('hidden');
 	pageSizeSelector.classList.remove('hidden');
 	// Add pages before and upto current page
 	if (currentPage === 1){
@@ -206,18 +216,18 @@ function updatePageNavState(currentPage, totalPages) {
 
 // Loads the previous page
 function loadPreviousPage() {
-	searchImages('travel', pageInfo.pageSize, pageInfo.currentPage - 1);
+	searchImages(SEARCH_KEYWORD, pageInfo.pageSize, pageInfo.currentPage - 1);
 }
 
 // Loads the next page
 function loadNextPage() {
-	searchImages('travel', pageInfo.pageSize, pageInfo.currentPage + 1);
+	searchImages(SEARCH_KEYWORD, pageInfo.pageSize, pageInfo.currentPage + 1);
 }
 
 // Loads new page, based on page indicated on button
 function loadPage() {
 	let newPage = parseInt(this.dataset.page);
-	searchImages('travel', pageInfo.pageSize, newPage);
+	searchImages(SEARCH_KEYWORD, pageInfo.pageSize, newPage);
 }
 
 // Load the modal
@@ -238,9 +248,9 @@ function hideModal() {
 }
 
 // Function to show general error while loading the results grid
-function showGeneralError() {
+function showError(message) {
 	resultsGrid.innerHTML = `
-		<div class="error-message">Sorry, we could not fetch the data. Please check your internet connection and try again.</div>
+		<div class="error-message">${message}</div>
 	`
 	resultsGrid.classList.add('error');
 	resultsGrid.classList.remove('loading');

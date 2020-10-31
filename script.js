@@ -29,15 +29,22 @@ async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
 		&page=${currentPage}
 		&per_page=${pageSize}
 		&order_by=relevant`;
-	// Get image results
-	const response = await fetch(searchURL,{
-		method: 'GET',
-		headers: {
-			'Accept-Version': 'v1',
-			'Authorization': `Client-ID ${UCK}`
-		}
-	});
 
+	// Get image results
+	let response; 
+	try {
+		response = await fetch(searchURL,{
+			method: 'GET',
+			headers: {
+				'Accept-Version': 'v1',
+				'Authorization': `Client-ID ${UCK}`
+			}
+		});
+	} catch(error) {
+		showGeneralError();
+		return;
+	}
+	
 	let data = await response.json();
 
 	let { results, total_pages: totalPages } = data; 
@@ -55,6 +62,7 @@ function renderLoader() {
 		<div class="loader"></div>
 	`
 	resultsGrid.classList.add('loading');
+	resultsGrid.classList.remove('error');
 }
 
 // Convert image results from API to HTML and populate grid
@@ -63,6 +71,7 @@ function renderGrid(imageList) {
 
 	resultsGrid.innerHTML = gridHTML;
 	resultsGrid.classList.remove('loading');
+	resultsGrid.classList.remove('error');
 
 	const resultCards = resultsGrid.getElementsByClassName('result-card');
 
@@ -129,9 +138,11 @@ function generateVisiblePageList(currentPage, totalPages){
 	// Return empty array for the following error conditions: 
 	// currentPage is 0 or invalid number, totalPages is 0 or invalid number, currentPage is greater than totalPages
 	if ((typeof totalPages) !== 'number' || totalPages <= 0 || (typeof currentPage) !== 'number' || currentPage <= 0 || currentPage > totalPages){
+		pageSizeSelector.classList.add('hidden');
 		return [];
 	} 
 
+	pageSizeSelector.classList.remove('hidden');
 	// Add pages before and upto current page
 	if (currentPage === 1){
 		visiblePageList.push(currentPage);
@@ -224,4 +235,14 @@ modalCloseButton.addEventListener('click', hideModal);
 function hideModal() {
 	modal.classList.toggle('hidden');
 	body.classList.toggle('modal-open');
+}
+
+// Function to show general error while loading the results grid
+function showGeneralError() {
+	resultsGrid.innerHTML = `
+		<div class="error-message">Sorry, we could not fetch the data. Please check your internet connection and try again.</div>
+	`
+	resultsGrid.classList.add('error');
+	resultsGrid.classList.remove('loading');
+	pageSizeSelector.classList.add('hidden');
 }

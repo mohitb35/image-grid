@@ -51,6 +51,11 @@ async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
 	
 	let data = await response.json();
 
+	if(data.errors){
+		showError(GENERAL_ERROR);
+		return;
+	}
+
 	let { results, total_pages: totalPages } = data; 
 
 	if (results.length > 0){
@@ -66,9 +71,23 @@ async function searchImages(searchTerm, pageSize = 10, currentPage = 1) {
 
 // Show loader till grid loads
 function renderLoader() {
-	resultsGrid.innerHTML = `
-		<div class="loader"></div>
-	`
+	let loadingGrid = ``;
+	resultsGrid.innerHTML = ``;
+	for(let i=0; i<=pageInfo.pageSize; i++){
+		loadingGrid += `
+			<article class="card">
+				<figure class="image-wrapper">
+					<img class="card-image loading">
+				</figure>
+				<div class="card-content">
+					<h2 class="card-title loading"></h2>
+				</div>
+			</article>
+		`
+	};
+
+	resultsGrid.innerHTML = loadingGrid;
+
 	resultsGrid.classList.add('loading');
 	resultsGrid.classList.remove('error');
 }
@@ -81,7 +100,7 @@ function renderGrid(imageList) {
 	resultsGrid.classList.remove('loading');
 	resultsGrid.classList.remove('error');
 
-	const resultCards = resultsGrid.getElementsByClassName('result-card');
+	const resultCards = resultsGrid.getElementsByClassName('card');
 
 	for (let resultCard of resultCards) {
 		resultCard.addEventListener('click', loadModal);
@@ -92,9 +111,13 @@ function renderGrid(imageList) {
 function renderCard(imageDetails) {
 	return (
 		`
-		<article class="result-card" data-modal-image="${imageDetails.urls.regular}" data-modal-text="${imageDetails["alt_description"]}">
-			<img class="result-image" src="${imageDetails.urls.small}">
-			<h2 class="result-title">${imageDetails["alt_description"]}</h2>
+		<article class="card" data-modal-image="${imageDetails.urls.regular}" data-modal-text="${imageDetails["alt_description"]}">
+			<figure class="image-wrapper">
+				<img class="card-image" src="${imageDetails.urls.small}"></img>
+			</figure>
+			<div class="card-content">
+				<h2 class="card-title">${imageDetails["alt_description"]}</h2>
+			</div>
 		</article>
 		`
 	);
@@ -107,8 +130,8 @@ pageSizeSelector.addEventListener('change', reloadResults);
 // Reloads results when page size changes
 function reloadResults() {
 	let pageSize = parseInt(this.value);
-	searchImages(SEARCH_KEYWORD, pageSize);
 	pageInfo.pageSize = pageSize;
+	searchImages(SEARCH_KEYWORD, pageSize);
 	this.blur();
 }
 
